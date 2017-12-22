@@ -1,0 +1,151 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+    <!-- 引入属性文件 -->
+    <!--<context:property-placeholder location="classpath*:db.properties" />-->
+
+    <!-- mysql数据源配置 -->
+    <bean id="mysqlDataSource" class="com.alibaba.druid.pool.DruidDataSource"
+          init-method="init" destroy-method="close">
+        <!-- 驱动名称 -->
+        <property name="DriverClassName" value="${symbol_dollar}{jdbc.driver}" />
+        <!-- JDBC连接串 -->
+        <property name="url" value="${symbol_dollar}{jdbc.url}" />
+        <!-- 数据库用户名称 -->
+        <property name="username" value="${symbol_dollar}{jdbc.username}" />
+        <!-- 数据库密码 -->
+        <property name="password" value="${symbol_dollar}{jdbc.password}" />
+        <!-- 连接池最大使用连接数量 -->
+        <property name="maxActive" value="${symbol_dollar}{jdbc.maxActive}" />
+        <!-- 初始化大小 -->
+        <property name="initialSize" value="${symbol_dollar}{jdbc.initialSize}" />
+        <!-- 获取连接最大等待时间 -->
+        <property name="maxWait" value="60000" />
+        <!-- 连接池最小空闲 -->
+        <property name="minIdle" value="${symbol_dollar}{jdbc.minIdle}" />
+        <!-- 逐出连接的检测时间间隔 -->
+        <property name="timeBetweenEvictionRunsMillis" value="3000" />
+        <!-- 最小逐出时间 -->
+        <property name="minEvictableIdleTimeMillis" value="300000" />
+        <!-- 测试有效用的SQL Query -->
+        <property name="validationQuery" value="SELECT 'x'" />
+        <!-- 连接空闲时测试是否有效 -->
+        <property name="testWhileIdle" value="true" />
+        <!-- 获取连接时测试是否有效 -->
+        <property name="testOnBorrow" value="false" />
+        <!-- 归还连接时是否测试有效 -->
+        <property name="testOnReturn" value="false" />
+        <!-- 配置监控统计拦截的filters -->
+        <property name="filters" value="wall,stat" />
+    </bean>
+
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="mysqlDataSource"/>
+    </bean>
+
+    <bean id="pfDataSource" class="com.alibaba.druid.pool.DruidDataSource"
+          init-method="init" destroy-method="close">
+        <!-- 驱动名称 -->
+        <property name="DriverClassName" value="${symbol_dollar}{jdbc.driver.pf}" />
+        <!-- JDBC连接串 -->
+        <property name="url" value="${symbol_dollar}{jdbc.url.pf}" />
+        <!-- 数据库用户名称 -->
+        <property name="username" value="${symbol_dollar}{jdbc.username.pf}" />
+        <!-- 数据库密码 -->
+        <property name="password" value="${symbol_dollar}{jdbc.password.pf}" />
+        <!-- 连接池最大使用连接数量 -->
+        <property name="maxActive" value="${symbol_dollar}{jdbc.maxActive.pf}" />
+        <!-- 初始化大小 -->
+        <property name="initialSize" value="${symbol_dollar}{jdbc.initialSize.pf}" />
+        <!-- 获取连接最大等待时间 -->
+        <property name="maxWait" value="60000" />
+        <!-- 连接池最小空闲 -->
+        <property name="minIdle" value="${symbol_dollar}{jdbc.minIdle.pf}" />
+        <!-- 逐出连接的检测时间间隔 -->
+        <property name="timeBetweenEvictionRunsMillis" value="3000" />
+        <!-- 最小逐出时间 -->
+        <property name="minEvictableIdleTimeMillis" value="300000" />
+        <!-- 测试有效用的SQL Query -->
+        <property name="validationQuery" value="SELECT 'x'" />
+        <!-- 连接空闲时测试是否有效 -->
+        <property name="testWhileIdle" value="true" />
+        <!-- 获取连接时测试是否有效 -->
+        <property name="testOnBorrow" value="false" />
+        <!-- 归还连接时是否测试有效 -->
+        <property name="testOnReturn" value="false" />
+        <!-- 配置监控统计拦截的filters -->
+        <property name="filters" value="wall,stat" />
+    </bean>
+
+    <bean id="pfJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="pfDataSource"/>
+    </bean>
+
+    <!--&lt;!&ndash; 整合mysqljpa &ndash;&gt;-->
+    <!--<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">-->
+        <!--<property name="dataSource" ref="mysqlDataSource"></property>-->
+        <!--<property name="packagesToScan" value="com.zzcm.ssp"></property>-->
+        <!--<property name="persistenceUnitName" value="mysqldb"></property>-->
+        <!--<property name="jpaVendorAdapter">-->
+            <!--<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">-->
+                <!--<property name="showSql" value="true"></property>-->
+                <!--<property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect" />-->
+            <!--</bean>-->
+        <!--</property>-->
+        <!--<property name="jpaProperties">-->
+            <!--<props>-->
+                <!--&lt;!&ndash;设置外连接抓取树的最大深度 &ndash;&gt;-->
+                <!--<prop key="hibernate.max_fetch_depth">3</prop>-->
+                <!--<prop key="hibernate.jdbc.fetch_size">18</prop>-->
+                <!--<prop key="hibernate.jdbc.batch_size">10</prop>-->
+                <!--&lt;!&ndash; 自动建表类型 validate|create|create-drop|update &ndash;&gt;-->
+                <!--&lt;!&ndash; <prop key="hibernate.hbm2ddl.auto">validate</prop> &ndash;&gt;-->
+                <!--&lt;!&ndash; 是否显示SQL &ndash;&gt;-->
+                <!--<prop key="hibernate.show_sql">true</prop>-->
+                <!--&lt;!&ndash; 显示SQL是否格式化 &ndash;&gt;-->
+                <!--<prop key="hibernate.format_sql">false</prop>-->
+                <!--&lt;!&ndash; 关闭二级缓存 &ndash;&gt;-->
+                <!--<prop key="hibernate.cache.provider_class">org.hibernate.cache.NoCacheProvider</prop>-->
+                <!--&lt;!&ndash; 关闭实体字段映射校验 &ndash;&gt;-->
+                <!--<prop key="javax.persistence.validation.mode">none</prop>-->
+                <!--<prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>-->
+            <!--</props>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+    <!--&lt;!&ndash; Jpa 事务配置 &ndash;&gt;-->
+    <!--<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">-->
+        <!--<property name="entityManagerFactory" ref="entityManagerFactory"/>-->
+    <!--</bean>-->
+
+    <!--&lt;!&ndash; Spring Data Jpa配置 &ndash;&gt;-->
+    <!--&lt;!&ndash;-->
+    <!--<jpa:repositories base-package="cn.ibeans"  transaction-manager-ref="transactionManager" entity-manager-factory-ref="entityManagerFactory"/>-->
+    <!--&ndash;&gt;-->
+    <!--&lt;!&ndash; 使用annotation定义事务 &ndash;&gt;-->
+    <!--<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />-->
+
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="mysqlDataSource"/>
+    </bean>
+    <bean id="pfTxManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="pfDataSource"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="txManager"/>
+    <tx:annotation-driven transaction-manager="pfTxManager"/>
+</beans>

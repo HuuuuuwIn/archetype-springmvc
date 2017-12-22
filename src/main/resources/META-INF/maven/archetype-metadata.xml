@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<archetype-descriptor xsi:schemaLocation="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.0.0 http://maven.apache.org/xsd/archetype-descriptor-1.0.0.xsd" name="springmvc"
+    xmlns="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <fileSets>
+    <fileSet filtered="true" encoding="UTF-8" packaged="true">
+      <directory>src/main/java</directory>
+      <includes>
+        <include>**/*.**</include>
+      </includes>
+    </fileSet>
+    <fileSet filtered="true" encoding="UTF-8" packaged="true">
+      <directory>src/test/java</directory>
+      <includes>
+        <include>**/*.**</include>
+      </includes>
+    </fileSet>
+    <fileSet filtered="true" encoding="UTF-8">
+      <directory>src/main/resources</directory>
+      <includes>
+        <include>**/*.xml</include>
+      </includes>
+    </fileSet>
+    <fileSet filtered="true" encoding="UTF-8">
+      <directory>src/main/conf</directory>
+      <includes>
+        <include>**/*.properties</include>
+      </includes>
+    </fileSet>
+    <fileSet filtered="true" encoding="UTF-8">
+      <directory>src/main/webapp</directory>
+      <includes>
+        <include>jsp</include>
+        <include>static/**</include>
+        <include>**/*.**</include>
+      </includes>
+    </fileSet>
+    <!--<fileSet filtered="true" encoding="UTF-8">-->
+      <!--<directory>.idea/libraries</directory>-->
+      <!--<includes>-->
+        <!--<include>**/*.xml</include>-->
+      <!--</includes>-->
+    <!--</fileSet>-->
+    <!--<fileSet filtered="true" encoding="UTF-8">-->
+      <!--<directory>.idea/artifacts</directory>-->
+      <!--<includes>-->
+        <!--<include>**/*.xml</include>-->
+      <!--</includes>-->
+    <!--</fileSet>-->
+    <!--<fileSet filtered="true" encoding="UTF-8">-->
+      <!--<directory>.idea</directory>-->
+      <!--<includes>-->
+        <!--<include>**/*.xml</include>-->
+      <!--</includes>-->
+    <!--</fileSet>-->
+    <requiredProperties>
+      <requiredProperty key="package-name"></requiredProperty>
+    </requiredProperties>
+    <!--<fileSet encoding="UTF-8">-->
+      <!--<directory></directory>-->
+      <!--<includes>-->
+        <!--<include>springmvc.iml</include>-->
+      <!--</includes>-->
+    <!--</fileSet>-->
+  </fileSets>
+</archetype-descriptor>

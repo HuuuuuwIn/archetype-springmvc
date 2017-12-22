@@ -1,0 +1,73 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version="1.0" encoding="UTF-8"?>
+<!--美隔10分钟检测一次log4j配置文件的变化，并且重新加载-->
+<configuration status="INFO" monitorInterval="3600">
+    <Properties>
+        <property name="LOG_HOME">/home/logs/yjq/</property>
+        <property name="INFO_FILE">info</property>
+        <property name="ERROR_FILE">err</property>
+    </Properties>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT" follow="true">
+            <PatternLayout charset="UTF-8" pattern="%d{HH:mm:ss.SSS} %-5level %class{36}.%M()/%L  - %msg%xEx%n"/>
+        </Console>
+
+        <RollingFile name="app_info" fileName="${symbol_dollar}{LOG_HOME}/${symbol_dollar}{INFO_FILE}.log"
+                     filePattern="${symbol_dollar}{LOG_HOME}/${symbol_dollar}{INFO_FILE}_%d{yyyy-MM-dd}.log">
+            <Filters>
+                <!--<ThresholdFilter level="warn" onMatch="DENY" onMismatch="NEUTRAL"/>-->
+                <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="NEUTRAL"/>
+            </Filters>
+            <PatternLayout charset="UTF-8" pattern="%d{yyyy.MM.dd HH:mm:ss z} %-5level %class{36}.%M()/%L - %msg%xEx%n"/>
+            <Policies>
+                <!-- 每24小时更新一次 -->
+                <TimeBasedTriggeringPolicy modulate="true" interval="1" />
+                <SizeBasedTriggeringPolicy size="300 MB" />
+            </Policies>
+            <!-- 最多备份10个 -->
+            <DefaultRolloverStrategy max="30" />
+        </RollingFile>
+
+
+        <!--
+        重要的是，如果有多个ThresholdFilter，那么Filters是必须的，
+        同时在Filters中，首先要过滤不符合的日志级别，把不需要的首先DENY掉，然后再ACCEPT需要的日志级别，这个次序不能搞颠倒。
+         -->
+        <RollingFile name="app_error" fileName="${symbol_dollar}{LOG_HOME}/${symbol_dollar}{ERROR_FILE}.log"
+                     filePattern="${symbol_dollar}{LOG_HOME}/${symbol_dollar}{ERROR_FILE}_%d{yyyy-MM-dd}.log">
+            <Filters>
+                <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout charset="UTF-8" pattern="%d{yyyy.MM.dd HH:mm:ss z} %-5level %class{36}.%M()/%L - %msg%xEx%n"/>
+            <Policies>
+                <!-- 每24小时更新一次 -->
+                <TimeBasedTriggeringPolicy modulate="true" interval="1" />
+                <SizeBasedTriggeringPolicy size="300 MB" />
+            </Policies>
+            <!-- 最多备份10个 -->
+            <DefaultRolloverStrategy max="30" />
+        </RollingFile>
+
+    </Appenders>
+    <loggers>
+        <!--<Logger name="com.zzcm.ssp.act.JsonAdAct" additivity="false">-->
+        <!--<appender-ref ref="app_error" level="error"/>-->
+        <!--<appender-ref ref="app_info" level="info"/>-->
+        <!--<appender-ref ref="Console" level="info"/>-->
+        <!--</Logger>-->
+        <!--<Logger name="com.zzcm.ssp.act.PbAdAct" additivity="false">-->
+        <!--<appender-ref ref="app_error" level="error"/>-->
+        <!--<appender-ref ref="app_info" level="info"/>-->
+        <!--<appender-ref ref="Console" level="info"/>-->
+        <!--</Logger>-->
+        <logger name="org.springframework" level="info"/>
+        <logger name="com.yjqian.portal" level="trace" />
+
+        <root level="info">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="app_info"/>
+        </root>
+    </loggers>
+</configuration>
