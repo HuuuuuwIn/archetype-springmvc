@@ -5,7 +5,7 @@
 <!--美隔10分钟检测一次log4j配置文件的变化，并且重新加载-->
 <configuration status="INFO" monitorInterval="3600">
     <Properties>
-        <property name="LOG_HOME">/home/logs/yjq/</property>
+        <property name="LOG_HOME">/home/logs/${artifactId}/</property>
         <property name="INFO_FILE">info</property>
         <property name="ERROR_FILE">err</property>
     </Properties>
@@ -68,6 +68,7 @@
         <root level="info">
             <appender-ref ref="Console"/>
             <appender-ref ref="app_info"/>
+            <appender-ref ref="app_error"/>
         </root>
     </loggers>
 </configuration>
